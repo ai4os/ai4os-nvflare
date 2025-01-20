@@ -18,10 +18,11 @@ RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
 RUN pip install --upgrade jupyterlab
 
-WORKDIR /workspace
+WORKDIR /opt
 RUN git clone https://github.com/${NVF_REPO}/NVFlare.git --branch ${NVF_BRANCH} --single-branch NVFlare
 
-WORKDIR /workspace/NVFlare
+WORKDIR /opt/NVFlare
+RUN pip install -U pip
 RUN pip install -e .
 
 WORKDIR /workspace
