@@ -22,7 +22,6 @@ WORKDIR /opt
 RUN git clone https://github.com/${NVF_REPO}/NVFlare.git --branch ${NVF_BRANCH} --single-branch NVFlare
 
 WORKDIR /opt/NVFlare
-RUN pip install -U pip
 RUN pip install -e .
 
 WORKDIR /workspace
