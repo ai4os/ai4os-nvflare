@@ -1,7 +1,36 @@
 import os
 import json
+
 import logging
-logger = logging.getLogger('dashboard')
+from logging.config import dictConfig
+
+log_config = {
+  'version': 1,
+  'disable_existing_loggers': False,
+  'formatters': {
+    'full_formatter': {
+      'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    }
+  },
+  'handlers': {
+    'console': {
+      'class': 'logging.StreamHandler',
+      'formatter': 'full_formatter',
+      'stream': 'ext://sys.stdout'
+    }
+  },
+  'loggers': {
+    'wsgi': {}
+  },
+  'root': {
+    'level': os.getenv('NVFL_LOGGING_LEVEL', 'INFO'),
+    'handlers': ['console']
+  }
+}
+
+dictConfig(log_config)
+
+logger = logging.getLogger('wsgi')
 
 from nvflare.dashboard.application import init_app
 
@@ -16,9 +45,9 @@ with app.app_context():
     if Store.ready():
 
         resp = Store.get_project()
-        logger.debug('resp: %s' % json.dumps(resp, indent=2))
+        logger.debug('Store.get_project(): %s' % json.dumps(resp, indent=2))
         if resp['status'].lower() != 'ok':
-            logger.error("Could not get project from the Store")
+            logger.error("Could not get project from the Store, status: %s" % str(resp['status']))
             exit(1)
 
         project = resp['project']
@@ -60,4 +89,5 @@ with app.app_context():
                 logger.info('Project configuration updated')
             logger.info('project_conf empty, not updating project')
 
-    logger.error('Store not ready')
+    else:
+      logger.error('Store not ready')
