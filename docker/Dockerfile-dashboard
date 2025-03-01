@@ -8,10 +8,12 @@ ARG NVF_VERSION=2.4
 ENV NVF_BRANCH=${NVF_VERSION}
 
 RUN apk update && \
-	apk add bash && \
-	apk add git && \
-	apk add gcc python3-dev musl-dev linux-headers && \
-	apk add zip
+  apk add bash && \
+  apk add git && \
+  apk add vim && \
+  apk add curl && \
+  apk add gcc python3-dev musl-dev linux-headers && \
+  apk add zip
 
 RUN pip install -U pip
 RUN pip install -U setuptools
@@ -38,6 +40,8 @@ RUN chmod +x /run.sh
 COPY ./dashboard/app /app
 
 ENV PYTHONPATH=/app
+
+EXPOSE 80
 
 ENTRYPOINT ["/entrypoint.sh"]
 
