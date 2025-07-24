@@ -55,8 +55,9 @@ with app.app_context():
 
         env_vars = {
             'server1': 'NVFL_SERVER1',
-            'server2': 'NVFL_SERVER2',
             'ha_mode': 'NVFL_HA_MODE',
+            'overseer': 'NVFL_OVERSEER',
+            'server2': 'NVFL_SERVER2',
             'short_name': 'NVFL_PROJECT_SHORT_NAME',
             'title': 'NVFL_PROJECT_TITLE',
             'description': 'NVFL_PROJECT_DESCRIPTION',
