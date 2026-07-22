@@ -1,11 +1,13 @@
-ARG NVF_BASE_IMAGE_DASHBOARD
+ARG NVF_BASE_IMAGE_DASHBOARD=python:3.11.15-alpine3.24
+ARG NVF_REPO
+ARG NVF_VERSION
+
 FROM ${NVF_BASE_IMAGE_DASHBOARD}
 
-ENV SHELL=/bin/bash
+ARG NVF_REPO
+ARG NVF_VERSION
 
-ARG NVF_REPO=NVIDIA
-ARG NVF_VERSION=2.4
-ENV NVF_BRANCH=${NVF_VERSION}
+ENV SHELL=/bin/bash
 
 RUN apk update && \
   apk add bash && \
@@ -19,7 +21,7 @@ RUN pip install -U pip
 RUN pip install -U setuptools
 
 WORKDIR /workspace
-RUN git clone https://github.com/${NVF_REPO}/NVFlare.git --branch ${NVF_BRANCH} --single-branch NVFlare
+RUN git clone https://github.com/${NVF_REPO}/NVFlare.git --branch ${NVF_VERSION} --single-branch NVFlare
 
 WORKDIR /workspace/NVFlare
 RUN pip install -e .
